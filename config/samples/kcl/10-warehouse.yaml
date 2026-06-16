@@ -1,0 +1,10 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: kcl-source
+  namespace: kcl-demo
+spec:
+  subscriptions:
+  - git:
+      repoURL: https://github.com/your-org/kargo-kcl-demo.git
+      branch: main

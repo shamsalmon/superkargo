@@ -1,0 +1,10 @@
+# Build artifacts (cross-compiled binaries; recreated by `make image` /
+# `make plugin-images`).
+/bin/
+dist/
+*.test
+*.out
+.DS_Store
+# Stray binaries from `go build .` in plugin module dirs (use `make` instead).
+/examples/kcl-plugin/kcl-plugin
+/examples/hello-world-plugin/hello-world-plugin

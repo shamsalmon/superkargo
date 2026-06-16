@@ -1,0 +1,41 @@
+# Extra RBAC for the chart-deployed controller: the Kargo chart doesn't know
+# about the CustomPromotionStep CRD, so grant its (chart-created)
+# kargo-controller ServiceAccount read access to those resources.
+#
+# Note: no secret RBAC is needed here. The chart already sets
+# SHARED_RESOURCES_NAMESPACE=kargo-shared-resources and binds the controller to
+# kargo-shared-resources-admin in that namespace, so credential lookups work.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: kargo-plugin-ext-customsteps
+rules:
+- apiGroups:
+  - plugin.kargo.akuity.io
+  resources:
+  - custompromotionsteps
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - plugin.kargo.akuity.io
+  resources:
+  - custompromotionsteps/status
+  verbs:
+  - get
+  - patch
+  - update
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: kargo-plugin-ext-customsteps
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: kargo-plugin-ext-customsteps
+subjects:
+- kind: ServiceAccount
+  name: kargo-controller
+  namespace: kargo

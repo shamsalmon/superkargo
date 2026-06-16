@@ -1,0 +1,51 @@
+# Dev values for the full Kargo control plane under Tilt, mirroring Kargo's own
+# hack/tilt/values.dev.yaml. The kargo-plugin-ext overrides (combined image +
+# controller env/volumes) live separately in config/helm/values-plugin-ext.yaml,
+# which the Tiltfile layers on top of this file.
+api:
+  logLevel: DEBUG
+  host: localhost:30081
+  tls:
+    enabled: false
+  permissiveCORSPolicyEnabled: true
+  probes:
+    enabled: false
+  adminAccount:
+    # The password is 'admin'.
+    passwordHash: "$2a$10$Zrhhie4vLz5ygtVSaif6o.qN36jgs6vjtMBdM6yrU1FOeiAAMMxOm"
+    tokenSigningKey: iwishtowashmyirishwristwatch
+  oidc:
+    enabled: true
+    dex:
+      enabled: true
+      connectors:
+      - id: mock
+        name: Example
+        type: mockCallback
+      probes:
+        enabled: false
+    admins:
+      claims:
+        email:
+        - kilgore@kilgore.trout
+
+controller:
+  logLevel: DEBUG
+
+crds:
+  install: true
+
+externalWebhooksServer:
+  logLevel: DEBUG
+  host: localhost:30083
+  tls:
+    enabled: false
+  probes:
+    enabled: false
+
+garbageCollector:
+  logLevel: DEBUG
+managementController:
+  logLevel: DEBUG
+webhooksServer:
+  logLevel: DEBUG

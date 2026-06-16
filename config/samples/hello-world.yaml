@@ -1,0 +1,28 @@
+apiVersion: plugin.kargo.akuity.io/v1alpha1
+kind: CustomPromotionStep
+metadata:
+  name: hello-world
+spec:
+  ## REQUIRED (defaults to metadata.name): the plugin sidecar to invoke. The
+  ## controller dials its gRPC unix socket at ${PLUGIN_SOCKET_DIR}/<plugin>.sock.
+  plugin: hello-world
+  ## OPTIONAL: pass the promotion's working directory to the plugin so it can
+  ## read/write the same files as built-in steps (e.g. a git checkout). Requires
+  ## the sidecar to share the /tmp workdir volume with the controller.
+  sharePromotionFolder: true
+  ## OPTIONAL: error handling metadata.
+  defaultTimeout: 5m
+  defaultErrorThreshold: 3
+---
+## Example use within a Promotion's steps:
+#
+# apiVersion: kargo.akuity.io/v1alpha1
+# kind: Promotion
+# spec:
+#   steps:
+#   - uses: hello-world
+#     as: greet
+#     config:
+#       hello: foo
+#       world: bar
+#   # ${{ outputs.greet.message }} == "foo-bar"

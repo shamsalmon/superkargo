@@ -1,0 +1,56 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: render
+  namespace: kcl-demo
+spec:
+  requestedFreight:
+  - origin:
+      kind: Warehouse
+      name: kcl-source
+    sources:
+      direct: true
+  promotionTemplate:
+    spec:
+      steps:
+      # 1. Check out the source commit and the (to-be-created) rendered branch.
+      - uses: git-clone
+        config:
+          repoURL: https://github.com/your-org/kargo-kcl-demo.git
+          checkout:
+          - commit: ${{ commitFrom("https://github.com/your-org/kargo-kcl-demo.git").ID }}
+            path: ./src
+          - branch: rendered
+            create: true
+            path: ./out
+      # 2. Render the KCL source (kcl-go, embedded in the plugin sidecar) into
+      #    the rendered-branch working tree.
+      - uses: kcl-build
+        as: build
+        config:
+          path: src/kcl
+          outputFile: out/manifests.yaml
+      # 3. Commit and push to a generated branch.
+      - uses: git-commit
+        config:
+          path: ./out
+          message: 'Render manifests for ${{ ctx.promotion }}'
+      - uses: git-push
+        as: push
+        config:
+          path: ./out
+          generateTargetBranch: true
+      # 4. Open a PR into the rendered branch...
+      - uses: git-open-pr
+        as: pr
+        config:
+          repoURL: https://github.com/your-org/kargo-kcl-demo.git
+          sourceBranch: ${{ outputs.push.branch }}
+          targetBranch: rendered
+          title: 'Render manifests (${{ ctx.promotion }})'
+      # 5. ...and keep the Promotion Running until the PR is merged.
+      - uses: git-wait-for-pr
+        as: wait
+        config:
+          repoURL: https://github.com/your-org/kargo-kcl-demo.git
+          prNumber: ${{ outputs.pr.pr.id }}

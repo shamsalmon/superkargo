@@ -1,0 +1,9 @@
+apiVersion: plugin.kargo.akuity.io/v1alpha1
+kind: CustomPromotionStep
+metadata:
+  name: kcl-build
+spec:
+  ## Resolves to the bin/plugins/kcl-build go-plugin in the controller's PLUGIN_DIR.
+  plugin: kcl-build
+  ## Share the promotion folder so the step can write rendered manifests into it.
+  sharePromotionFolder: true

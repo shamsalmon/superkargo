@@ -1,0 +1,62 @@
+# Values overlay for deploying kargo-plugin-ext via the DEFAULT Kargo Helm chart.
+#
+#   helm upgrade --install kargo <kargo-chart> -n kargo \
+#     -f config/helm/values-plugin-ext.yaml
+#
+# Overrides (all standard chart knobs):
+#   * image                    -> the combined controller image (Kargo + our shim)
+#   * controller.env           -> where the controller finds plugin sockets
+#   * controller.initContainers -> plugin SIDECARS (native sidecars), one per
+#                                  plugin, each its own image
+#   * controller.volumes / volumeMounts -> a shared sockets dir, plus the shared
+#                                  /tmp workdir (so sharePromotionFolder works
+#                                  across the controller and sidecars)
+#
+# Plugins run as separate containers with their own Go builds and dependencies;
+# the controller dials each over a gRPC unix socket in /run/plugins.
+
+image:
+  repository: kargo-plugin-ext-chart
+  tag: dev
+  pullPolicy: Always
+
+controller:
+  isDefault: true
+
+  # Argo CD / Argo Rollouts integrations stay at chart defaults; the controller
+  # registers their schemes when those CRDs exist and proceeds without them
+  # otherwise.
+
+  env:
+  - name: PLUGIN_SOCKET_DIR
+    value: /run/plugins
+
+  # Plugin sidecars. These are NATIVE sidecars (initContainers with
+  # restartPolicy: Always, Kubernetes 1.28+): they start before and run
+  # alongside the controller. Each serves the plugin SDK gRPC contract on a unix
+  # socket in the shared /run/plugins volume. tmp-data (the chart's emptyDir
+  # mounted at /tmp in the controller) is mounted here too, so the promotion
+  # working directory is shared — that is what makes sharePromotionFolder work.
+  initContainers:
+  - name: kcl-build
+    image: kcl-build-plugin:dev
+    imagePullPolicy: Always
+    restartPolicy: Always
+    env:
+    - name: PLUGIN_SOCKET
+      value: /run/plugins/kcl-build.sock
+    - name: HOME            # writable dir for the embedded KCL toolchain's cache
+      value: /tmp
+    volumeMounts:
+    - name: plugin-sockets
+      mountPath: /run/plugins
+    - name: tmp-data
+      mountPath: /tmp
+
+  volumeMounts:
+  - name: plugin-sockets
+    mountPath: /run/plugins
+
+  volumes:
+  - name: plugin-sockets
+    emptyDir: {}
