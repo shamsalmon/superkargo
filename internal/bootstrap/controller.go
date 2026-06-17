@@ -6,7 +6,7 @@
 // Rollouts integrations (their schemes are registered and a separate Argo CD
 // manager is started when those CRDs are present). The only meaningful delta is
 // the promotion engine, which is built on a pluginstep.DynamicRegistry (marked
-// "kargo-plugin-ext:").
+// "superkargo:").
 package bootstrap
 
 import (
@@ -63,8 +63,8 @@ import (
 	_ "github.com/akuity/kargo/pkg/credentials/ssh"
 	_ "github.com/akuity/kargo/pkg/promotion/runner/builtin"
 
-	kargoext "github.com/shamsalmon/kargo-plugin-ext/api/v1alpha1"
-	"github.com/shamsalmon/kargo-plugin-ext/pkg/pluginstep"
+	kargoext "github.com/shamsalmon/superkargo/api/v1alpha1"
+	"github.com/shamsalmon/superkargo/pkg/pluginstep"
 )
 
 // Options configures the controller.
@@ -100,7 +100,7 @@ func Run(ctx context.Context) error {
 	if o.ShardName != "" {
 		startupLogger = startupLogger.WithValues("shard", o.ShardName)
 	}
-	startupLogger.Info("Starting kargo-plugin-ext controller")
+	startupLogger.Info("Starting superkargo controller")
 
 	return o.run(ctx)
 }
@@ -174,7 +174,7 @@ func (o *Options) setupKargoManager(
 	if err = registerCoreTypes(scheme); err != nil {
 		return nil, nil, stagesReconcilerCfg, fmt.Errorf("error building scheme: %w", err)
 	}
-	// kargo-plugin-ext: register the Argo Rollouts scheme so the Stage reconciler
+	// superkargo: register the Argo Rollouts scheme so the Stage reconciler
 	// can watch AnalysisRun resources when the integration is enabled and present.
 	if stagesReconcilerCfg.RolloutsIntegrationEnabled {
 		var exists bool
@@ -343,7 +343,7 @@ func (o *Options) setupReconcilers(
 	sharedIndexer := indexer.NewSharedFieldIndexer(kargoMgr.GetFieldIndexer())
 
 	if promotionsReconcilerCfg := promotions.ReconcilerConfigFromEnv(); promotionsReconcilerCfg.Enable {
-		// kargo-plugin-ext: the only custom seam — an engine built on a
+		// superkargo: the only custom seam — an engine built on a
 		// DynamicRegistry that resolves CustomPromotionStep resources and
 		// dispatches them to go-plugins.
 		registry := pluginstep.NewDynamicRegistry(

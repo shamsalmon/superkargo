@@ -1,4 +1,4 @@
-# kargo-plugin-ext
+# superkargo
 
 > ⚠️ **Not affiliated with Akuity or the Kargo project.** This is an independent,
 > community experiment — not endorsed by, supported by, or part of Kargo. It is
@@ -143,11 +143,11 @@ upstream binary — so api/webhooks/etc. are unchanged. Plugins are added as
 
 ```bash
 make images          # build the controller image + plugin sidecar image(s)
-make helm-deploy     # helm upgrade with config/helm/values-plugin-ext.yaml
+make helm-deploy     # helm upgrade with config/helm/values-superkargo.yaml
                      #   (preserve existing release values via HELM_ARGS="-f ...")
 ```
 
-[`config/helm/values-plugin-ext.yaml`](config/helm/values-plugin-ext.yaml) is the
+[`config/helm/values-superkargo.yaml`](config/helm/values-superkargo.yaml) is the
 only overlay you need; it overrides just the image, the controller env, and the
 plugin sidecars/volumes. On docker-desktop a locally-built image is served to the
 cluster via its registry mirror (plain tag + `pullPolicy: Always`); on a real

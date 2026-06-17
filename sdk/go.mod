@@ -1,8 +1,8 @@
-// Module github.com/shamsalmon/kargo-plugin-ext/sdk is the kargo-plugin-ext plugin
+// Module github.com/shamsalmon/superkargo/sdk is the superkargo plugin
 // SDK: the gRPC contract between the controller and promotion-step plugins. It
 // deliberately has a tiny dependency footprint (just gRPC) so plugin modules can
 // import it without pulling in Kargo or the controller.
-module github.com/shamsalmon/kargo-plugin-ext/sdk
+module github.com/shamsalmon/superkargo/sdk
 
 go 1.26.0
 

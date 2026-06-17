@@ -1,12 +1,12 @@
 // The kcl-build plugin is its OWN module: it depends only on the plugin SDK and
 // the KCL toolchain, never on Kargo or the controller. It builds to its own
 // container image and runs as a sidecar.
-module github.com/shamsalmon/kargo-plugin-ext/examples/kcl-plugin
+module github.com/shamsalmon/superkargo/examples/kcl-plugin
 
 go 1.26.0
 
 require (
-	github.com/shamsalmon/kargo-plugin-ext/sdk v0.0.0-00010101000000-000000000000
+	github.com/shamsalmon/superkargo/sdk v0.0.0-00010101000000-000000000000
 	kcl-lang.io/kcl-go v0.12.3
 )
 
@@ -31,4 +31,4 @@ require (
 	kcl-lang.io/lib v0.12.3 // indirect
 )
 
-replace github.com/shamsalmon/kargo-plugin-ext/sdk => ../../sdk
+replace github.com/shamsalmon/superkargo/sdk => ../../sdk

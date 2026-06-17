@@ -1,4 +1,4 @@
-// Package sdk defines the contract between the kargo-plugin-ext controller and
+// Package sdk defines the contract between the superkargo controller and
 // promotion-step plugins. Plugins run as their own containers (sidecars) and
 // serve this contract over gRPC on a unix socket; the controller dials them.
 //

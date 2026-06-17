@@ -1,7 +1,7 @@
-# Values overlay for deploying kargo-plugin-ext via the DEFAULT Kargo Helm chart.
+# Values overlay for deploying superkargo via the DEFAULT Kargo Helm chart.
 #
 #   helm upgrade --install kargo <kargo-chart> -n kargo \
-#     -f config/helm/values-plugin-ext.yaml
+#     -f config/helm/values-superkargo.yaml
 #
 # Overrides (all standard chart knobs):
 #   * image                    -> the combined controller image (Kargo + our shim)
@@ -16,7 +16,7 @@
 # the controller dials each over a gRPC unix socket in /run/plugins.
 
 image:
-  repository: kargo-plugin-ext-chart
+  repository: superkargo-chart
   tag: dev
   pullPolicy: Always
 

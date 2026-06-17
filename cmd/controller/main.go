@@ -7,7 +7,7 @@ import (
 
 	"github.com/akuity/kargo/pkg/logging"
 
-	"github.com/shamsalmon/kargo-plugin-ext/internal/bootstrap"
+	"github.com/shamsalmon/superkargo/internal/bootstrap"
 )
 
 func main() {

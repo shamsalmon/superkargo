@@ -1,4 +1,4 @@
-// Command hello-world-plugin is an example kargo-plugin-ext promotion-step
+// Command hello-world-plugin is an example superkargo promotion-step
 // plugin. It runs as a sidecar serving the plugin SDK's gRPC contract on a unix
 // socket. It reads "hello" and "world" from the step config and returns a
 // "message" output of "<hello>-<world>"; when the promotion folder is shared it
@@ -12,7 +12,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/shamsalmon/kargo-plugin-ext/sdk"
+	"github.com/shamsalmon/superkargo/sdk"
 )
 
 func run(_ context.Context, req *sdk.Request) (*sdk.Response, error) {

@@ -7,7 +7,7 @@ CONTROLLER_GEN ?= go run sigs.k8s.io/controller-tools/cmd/controller-gen@v0.19.0
 # Apple Silicon is arm64).
 GOARCH ?= arm64
 
-CONTROLLER_IMAGE ?= kargo-plugin-ext-chart:dev
+CONTROLLER_IMAGE ?= superkargo-chart:dev
 KCL_PLUGIN_IMAGE ?= kcl-build-plugin:dev
 
 KARGO_CHART ?= oci://ghcr.io/akuity/kargo-charts/kargo
@@ -17,7 +17,7 @@ KARGO_CHART_VERSION ?= 1.10.7
 
 .PHONY: build
 build:
-	go build -o bin/kargo-plugin-ext-controller ./cmd/controller
+	go build -o bin/superkargo-controller ./cmd/controller
 
 .PHONY: test
 test:
@@ -57,7 +57,7 @@ manifests:
 # replaced by ours, so the whole Helm release runs from one image.
 .PHONY: image
 image:
-	GOOS=linux GOARCH=$(GOARCH) CGO_ENABLED=0 go build -o dist/linux/kargo-plugin-ext-controller ./cmd/controller
+	GOOS=linux GOARCH=$(GOARCH) CGO_ENABLED=0 go build -o dist/linux/superkargo-controller ./cmd/controller
 	docker build --provenance=false -f Dockerfile -t $(CONTROLLER_IMAGE) .
 
 # Plugin sidecar image(s) — each plugin is its own module/build/image.
@@ -72,7 +72,7 @@ images: image plugin-images
 
 # --- deploy via the default Kargo Helm chart ---
 
-# Upgrade an existing Kargo release to run the kargo-plugin-ext controller plus
+# Upgrade an existing Kargo release to run the superkargo controller plus
 # the plugin sidecars. Pass extra args via HELM_ARGS (e.g. to preserve admin
 # values: HELM_ARGS="-f my-values.yaml").
 .PHONY: helm-deploy
@@ -80,4 +80,4 @@ helm-deploy:
 	kubectl apply -f config/crd
 	kubectl apply -f config/helm/customsteps-rbac.yaml
 	helm upgrade --install kargo $(KARGO_CHART) --version $(KARGO_CHART_VERSION) -n kargo \
-		-f config/helm/values-plugin-ext.yaml $(HELM_ARGS)
+		-f config/helm/values-superkargo.yaml $(HELM_ARGS)

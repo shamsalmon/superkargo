@@ -10,7 +10,7 @@ import (
 
 	"github.com/akuity/kargo/pkg/promotion"
 
-	kargoext "github.com/shamsalmon/kargo-plugin-ext/api/v1alpha1"
+	kargoext "github.com/shamsalmon/superkargo/api/v1alpha1"
 )
 
 func testScheme(t *testing.T) *runtime.Scheme {

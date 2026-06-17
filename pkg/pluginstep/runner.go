@@ -12,7 +12,7 @@ import (
 	"github.com/akuity/kargo/pkg/logging"
 	"github.com/akuity/kargo/pkg/promotion"
 
-	"github.com/shamsalmon/kargo-plugin-ext/sdk"
+	"github.com/shamsalmon/superkargo/sdk"
 )
 
 // stepClient is the subset of sdk.Client the runner uses. It is an interface so

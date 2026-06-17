@@ -1,4 +1,4 @@
-// Package v1alpha1 contains the API types for kargo-plugin-ext. Its
+// Package v1alpha1 contains the API types for superkargo. Its
 // CustomPromotionStep type binds a named promotion step to a HashiCorp
 // go-plugin RPC plugin that the controller invokes to compute the step's
 // output.
@@ -12,7 +12,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/scheme"
 )
 
-// GroupVersion is the group/version for the kargo-plugin-ext API.
+// GroupVersion is the group/version for the superkargo API.
 var GroupVersion = schema.GroupVersion{
 	Group:   "plugin.kargo.akuity.io",
 	Version: "v1alpha1",

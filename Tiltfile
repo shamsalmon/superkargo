@@ -1,7 +1,7 @@
-# Tilt dev environment for kargo-plugin-ext, modeled on Kargo's own Tiltfile.
+# Tilt dev environment for superkargo, modeled on Kargo's own Tiltfile.
 #
 # It deploys a full Kargo control plane via the Kargo Helm chart, but with the
-# controller swapped for kargo-plugin-ext and the kcl-build plugin running as a
+# controller swapped for superkargo and the kcl-build plugin running as a
 # sidecar. Editing Go source recompiles the affected binary, rebuilds its image,
 # and Tilt redeploys.
 #
@@ -17,7 +17,7 @@ KARGO_CHART = os.environ.get('KARGO_CHART', '../kargo/charts/kargo')
 
 local_resource(
   'compile-controller',
-  'CGO_ENABLED=0 GOOS=linux GOARCH=$(go env GOARCH) go build -o dist/linux/kargo-plugin-ext-controller ./cmd/controller',
+  'CGO_ENABLED=0 GOOS=linux GOARCH=$(go env GOARCH) go build -o dist/linux/superkargo-controller ./cmd/controller',
   deps = ['cmd/', 'internal/', 'pkg/', 'api/', 'go.mod', 'go.sum'],
   # Don't let the compiled output re-trigger the build.
   ignore = ['dist/'],
@@ -37,7 +37,7 @@ local_resource(
 # --- images: the controller (Kargo image + our shim) and the plugin sidecar ---
 
 docker_build(
-  'kargo-plugin-ext-chart',
+  'superkargo-chart',
   '.',
   dockerfile = 'Dockerfile',
   only = ['dist/linux', 'hack/kargo-shim.sh'],
@@ -58,7 +58,7 @@ k8s_yaml(
     namespace = 'kargo',
     values = [
       'hack/tilt/values.dev.yaml',
-      'config/helm/values-plugin-ext.yaml',
+      'config/helm/values-superkargo.yaml',
     ],
   )
 )

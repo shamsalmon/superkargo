@@ -11,7 +11,7 @@ import (
 	kargoapi "github.com/akuity/kargo/api/v1alpha1"
 	"github.com/akuity/kargo/pkg/promotion"
 
-	"github.com/shamsalmon/kargo-plugin-ext/sdk"
+	"github.com/shamsalmon/superkargo/sdk"
 )
 
 type fakeClient struct {

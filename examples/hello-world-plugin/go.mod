@@ -1,9 +1,9 @@
 // The hello-world plugin is its own module, depending only on the plugin SDK.
-module github.com/shamsalmon/kargo-plugin-ext/examples/hello-world-plugin
+module github.com/shamsalmon/superkargo/examples/hello-world-plugin
 
 go 1.26.0
 
-require github.com/shamsalmon/kargo-plugin-ext/sdk v0.0.0-00010101000000-000000000000
+require github.com/shamsalmon/superkargo/sdk v0.0.0-00010101000000-000000000000
 
 require (
 	golang.org/x/net v0.48.0 // indirect
@@ -14,4 +14,4 @@ require (
 	google.golang.org/protobuf v1.36.10 // indirect
 )
 
-replace github.com/shamsalmon/kargo-plugin-ext/sdk => ../../sdk
+replace github.com/shamsalmon/superkargo/sdk => ../../sdk

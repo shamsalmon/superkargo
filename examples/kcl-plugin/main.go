@@ -1,4 +1,4 @@
-// Command kcl-plugin is a kargo-plugin-ext promotion-step plugin that builds KCL
+// Command kcl-plugin is a superkargo promotion-step plugin that builds KCL
 // into rendered manifests using the KCL Go SDK (kcl-lang.io/kcl-go). It runs as
 // a sidecar container and serves the plugin SDK's gRPC contract on a unix
 // socket; the controller dials it. The KCL toolchain is embedded, so no external
@@ -23,7 +23,7 @@ import (
 
 	kcl "kcl-lang.io/kcl-go"
 
-	"github.com/shamsalmon/kargo-plugin-ext/sdk"
+	"github.com/shamsalmon/superkargo/sdk"
 )
 
 type config struct {

@@ -1,4 +1,4 @@
-module github.com/shamsalmon/kargo-plugin-ext
+module github.com/shamsalmon/superkargo
 
 go 1.26.0
 
@@ -172,7 +172,7 @@ require (
 	github.com/rubenv/sql-migrate v1.8.0 // indirect
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
 	github.com/santhosh-tekuri/jsonschema/v6 v6.0.2 // indirect
-	github.com/shamsalmon/kargo-plugin-ext/sdk v0.0.0-00010101000000-000000000000
+	github.com/shamsalmon/superkargo/sdk v0.0.0-00010101000000-000000000000
 	github.com/shopspring/decimal v1.4.0 // indirect
 	github.com/sirupsen/logrus v1.9.3 // indirect
 	github.com/spf13/cast v1.7.0 // indirect
@@ -249,7 +249,7 @@ replace (
 )
 
 // Our in-repo plugin SDK module.
-replace github.com/shamsalmon/kargo-plugin-ext/sdk => ./sdk
+replace github.com/shamsalmon/superkargo/sdk => ./sdk
 
 // Kargo does not publish/tag its nested api module (github.com/akuity/kargo/api),
 // and the published kargo module requires it at the (non-existent) tag

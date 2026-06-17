@@ -8,7 +8,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/shamsalmon/kargo-plugin-ext/sdk"
+	"github.com/shamsalmon/superkargo/sdk"
 )
 
 func TestKCLBuildToOutput(t *testing.T) {

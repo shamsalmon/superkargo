@@ -1,6 +1,6 @@
 # Dev values for the full Kargo control plane under Tilt, mirroring Kargo's own
-# hack/tilt/values.dev.yaml. The kargo-plugin-ext overrides (combined image +
-# controller env/volumes) live separately in config/helm/values-plugin-ext.yaml,
+# hack/tilt/values.dev.yaml. The superkargo overrides (combined image +
+# controller env/volumes) live separately in config/helm/values-superkargo.yaml,
 # which the Tiltfile layers on top of this file.
 api:
   logLevel: DEBUG
